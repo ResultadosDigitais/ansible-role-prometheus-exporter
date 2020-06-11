@@ -2,7 +2,7 @@
 - name: "exporter | {{ item_e.name }} | set facts"
   set_fact:
     exporter_name: "{{ item_e.name }}"
-    exporter_url: "{{ item_e.url_bin }}"
+    exporter_url: "{{ item_e.url }}"
     exporter_user: "{{ item_e.user |d('root') }}"
     exporter_group: "{{ item_e.group |d('root') }}"
     exporter_path: "{{ item_e.path | d(prometheus_exporter_path+'/'+item_e.name) }}"
