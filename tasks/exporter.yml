@@ -78,7 +78,7 @@
     unsafe_writes: "{{ item.unsafe_writes |d(omit) }}"
   with_items: "{{ item_e.config_files }}"
   register: ret_conf
-when: item_e.config_files is defined
+  when: item_e.config_files is defined
 
 
 - name: "exporter | {{ exporter_name }} | upstart script"
