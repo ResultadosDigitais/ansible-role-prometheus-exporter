@@ -8,22 +8,9 @@ Installs and configure a generic prometheus exporter given its binary url path.
 
 Please look at the [defaults/main.yml](defaults/main.yml) to see all default variables.
 
-A basic use requires only an item with `prometheus_exporter_list.[].url` field
-
     prometheus_exporter_path: /opt/prometheus-exporters
 
 The directory path to use for install Prometheus exporters.
-
-
-    prometheus_exporter_list:
-      - name: process
-        url: https://github.com/ncabatoff/process-exporter/releases/download/v0.6.0/process-exporter-0.6.0.linux-amd64.tar.gz
-        unpack: true
-        unpack_path_tmp: /tmp/process-exporter-0.6.0.linux-amd64/process-exporter
-        args: "-config.path=/etc/prom-exporter-process.yml"
-        config_files:
-          - src: "{{ playbook_dir }}/files/process-exporter.yml"
-            path: {{ prometheus_exporter_path }}/-process-exporter.yml
 
     prometheus_exporter_list.[].name
 
