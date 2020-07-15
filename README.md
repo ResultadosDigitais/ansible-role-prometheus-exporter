@@ -55,6 +55,8 @@ Remote exporter config file path
         config_files:
           - src: "{{ playbook_dir }}/files/process-exporter.yml"
             path: {{ prometheus_exporter_path }}/-process-exporter.yml
+        envs:
+          USERNAME=helloworld
 
   roles:
     - role: prometheus-exporter

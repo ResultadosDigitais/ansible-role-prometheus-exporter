@@ -5,6 +5,7 @@ After=network.target
 [Service]
 PIDFile=/var/run/prometheus/{{ exporter_name }}.pid
 ExecStart={{ exporter_path }} {{ exporter_args }}
+EnvironmentFile=-/etc/default/prometheus-{{ exporter_name }}
 
 ExecStop=/bin/kill -s TERM $MAINPID
 ExecReload=/bin/kill -HUP $MAINPID

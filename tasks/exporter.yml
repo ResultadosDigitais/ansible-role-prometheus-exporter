@@ -7,6 +7,7 @@
     exporter_group: "{{ item_e.group |d('root') }}"
     exporter_path: "{{ item_e.path | d(prometheus_exporter_path+'/'+item_e.name) }}"
     exporter_args: "{{ item_e.args |d(none) }}"
+    exporter_envs: "{{ item_e.envs |d(none) }}"
     exporter_unpack: "{{ item_e.unpack | d(false) }}"
     exporter_service: "prometheus-{{ item_e.name }}"
 
@@ -98,14 +99,24 @@
 
 - block:
 
-  - name: "exporter | {{ exporter_name }} | systemd script"
+  - name: "exporter | {{ exporter_name }} | systemd unit file"
     template:
-      src: systemd.j2
+      src: systemd-unit-file.j2
       dest: /lib/systemd/system/{{ exporter_service }}.service
       owner: root
       group: root
       mode: 0644
     register: ret_conf
+
+  - name: "exporter | {{ exporter_name }} | systemd env file"
+    template:
+      src: systemd-env-file.j2
+      dest: /etc/default/prometheus-{{ exporter_name }}
+      owner: root
+      group: root
+      mode: 0644
+    register: ret_env
+    when: item_e.envs is defined
 
   - name: "exporter | {{ exporter_name  }} | reload service"
     systemd:
@@ -123,4 +134,4 @@
   service:
     name: "{{ exporter_service }}"
     state: restarted
-  when: ret_conf is changed
+  when: (ret_conf is changed) or (ret_env is defined and ret_env is changed)
